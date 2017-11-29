@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+<!--데이터베이스에 직접 커넥션 연결하는 작업을 관리하는 객체 -->
+	<bean id="ddd" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/java"/>
+		<property name="username" value="root"/>
+		<property name="password" value="sds1103"/>
+	</bean>
+	
+<!--마이바티스 설정파일에 있던 alias, datasource, mapper 내용 적는 객체 -->
+	<bean id="fff" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="typeAliasesPackage" value="vo"/>
+		<property name="dataSource" ref="ddd"/>
+		<property name="mapperLocations" value="classpath:/mapper/*.xml"/>
+	</bean>
+	
+<!--Dao 클래스가 탐내고 있는(의존하는) 객체 -->
+	<bean id="session" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="fff"/>
+	</bean>
+	
+<!-- 	<bean id="bookDao" class="repository.BookDao">
+		<property name="session" ref="session"/>
+		</bean> -->
+	<context:annotation-config/>
+	<context:component-scan base-package="repository"/>
+</beans>
+
+
+
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.BoardMapper">
+ 	<insert id="insert" parameterType="BoardVO">
+		INSERT INTO BOARD
+		(TITLE,WRITER,WRITE_DATE,READ_COUNT,CONTENT)
+		 VALUES
+		 (#{title},#{writer},now(),#{readCount},#{content})
+	</insert>
+	<update id="updateReadCount">
+		UPDATE BOARD SET READ_COUNT=READ_COUNT+1
+		WHERE ARTICLE_NUM=#{articleNum}
+	</update>
+
+	<select id="selectTotalCount" resultType="Integer">
+		SELECT COUNT(*) FROM BOARD
+	</select>
+			
+	<select id="selectList" parameterType="java.util.Map" resultMap="boardResultMap">
+		SELECT * FROM BOARD
+			ORDER BY ARTICLE_NUM DESC
+			LIMIT #{startRow}, #{count}
+	</select>
+	
+	<select id="select" parameterType="Integer" resultMap="boardResultMap">
+		SELECT * FROM BOARD
+			WHERE ARTICLE_NUM=#{articleNum}
+	</select >
+	
+	<update id="update" parameterType="BoardVO">
+		UPDATE BOARD SET TITLE=#{title},WRITER=#{writer},WRITE_DATE=now(),READ_COUNT=#{readCount},CONTENT=#{content} where ARTICLE_NUM=#{articleNum}
+	</update>
+	
+	<resultMap type="BoardVO" id="boardResultMap">
+		<result column="ARTICLE_NUM" property="articleNum"/>
+		<result column="TITLE" property="title"/>
+		<result column="WRITE_DATE" property="writeDate"/>
+		<result column="READ_COUNT" property="readCount"/>
+		<result column="WRITER" property="writer"/>
+		<result column="CONTENT" property="content"/>
+	
+	</resultMap>
+	
+ </mapper>
+
+
+
+

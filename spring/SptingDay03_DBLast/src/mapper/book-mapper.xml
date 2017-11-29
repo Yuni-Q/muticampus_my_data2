@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="mapper.BookMapper">
+	<insert id="insert">
+	INSERT INTO BOOKS(TITLE,PUBLISHER,PRICE,YEAR)
+	 VALUES(#{bookTitle},#{bookPub},#{bookPrice},#{bookYear})
+	</insert>
+	
+	<select id="selectOne" parameterType="Integer" resultMap="lyh">
+	SELECT BOOK_NUM,TITLE,PUBLISHER,PRICE,YEAR FROM BOOKS
+	 WHERE BOOK_NUM=#{bookNum}	
+	</select>
+
+	<select id="selectAll" resultMap="lyh">
+	SELECT BOOK_NUM,TITLE,PUBLISHER,PRICE,YEAR FROM BOOKS
+	</select>
+	
+	<resultMap type="BookVO" id="lyh">
+		<result column="BOOK_NUM" property="bookNum"/>
+		<result column="TITLE" property="bookTitle"/>
+		<result column="PUBLISHER" property="bookPub"/>
+		<result column="PRICE" property="bookPrice"/>
+		<result column="YEAR" property="bookYear"/> 
+	</resultMap>
+</mapper>
